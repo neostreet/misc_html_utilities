@@ -30,6 +30,13 @@ var incorrect_answers = 0;
 
 newFlop();
 
+simpleAddEvent(document, "keydown", handlekey);
+
+function simpleAddEvent(obj, evt, cbk) {
+  if (obj.addEventListener) { obj.addEventListener(evt, cbk, false); }
+  else if (obj.attachEvent) { obj.attachEvent("on" + evt, cbk); } // IE
+}
+
 function getSuitsAndDenoms()
 {
   suit1 = Math.floor(ix1 / 13);
@@ -202,6 +209,47 @@ function newFlop()
   } while (ix3 === ix2 || ix3 === ix1);
 
   card3.src = ix3 + ".bmp"
+}
+
+function handlekey(e)
+{
+  var keycode, oldPly, oldVar, colRow, colRowList;
+
+  if (!e) { e = window.event; }
+
+  keycode = e.keyCode;
+
+  if (e.altKey || e.ctrlKey || e.metaKey) { return true; }
+
+  switch (keycode) {
+
+    case  8: // backspace
+    case  9: // tab
+    case 16: // shift
+    case 17: // ctrl
+    case 18: // alt
+    case 32: // space
+    case 33: // page-up
+    case 34: // page-down
+    case 35: // end
+    case 36: // home
+    case 92: // super
+    case 93: // menu
+    case 188: // comma
+      return true;
+
+    case 37: // left-arrow
+      processDry();
+      break;
+
+    case 39: // right-arrow
+      processWet();
+      break;
+
+    default:
+      return true;
+  }
+  return false;
 }
 </script>
 
