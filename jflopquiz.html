@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>jflopquiz</title>
+</head>
+<body>
+
+<img src="0.bmp" id="card1">
+<img src="1.bmp" id="card2">
+<img src="2.bmp" id="card3">
+<br>
+<button onclick="processDry()" id="dry">dry</button>
+<button onclick="processWet()" id="wet">wet</button>
+<p id="num_quizzes">0 num_quizzes</p>
+<p id="num_dry_flops">0 num_dry_flops</p>
+<p id="num_wet_flops">0 num_wet_flops</p>
+<p id="correct_answers">0 correct_answers</p>
+<p id="incorrect_answers">0 incorrect_answers</p>
+
+<script type="text/javascript">
+
+var ix1,ix2,ix3;
+var suit1,suit2,suite3;
+var denom1,denom2,denom3;
+var num_quizzes = 0;
+var num_dry_flops = 0;
+var num_wet_flops = 0;
+var correct_answers = 0;
+var incorrect_answers = 0;
+
+newFlop();
+
+function getSuitsAndDenoms()
+{
+  suit1 = Math.floor(ix1 / 13);
+  denom1 = ix1 % 13;
+
+  suit2 = Math.floor(ix2 / 13);
+  denom2 = ix2 % 13;
+
+  suit3 = Math.floor(ix3 / 13);
+  denom3 = ix3 % 13;
+}
+
+function flush()
+{
+  return ((suit1 === suit2) && (suit1 === suit3));
+}
+
+function straight()
+{
+  if (pair_or_better())
+    return false;
+
+  var min = Math.min(Math.min(denom1,denom2),denom3);
+  var max = Math.max(Math.max(denom1,denom2),denom3);
+  var max2;
+
+  // handle wheel case
+  if (max === 12) {
+    if (denom1 === 12)
+      max2 = Math.max(denom2,denom3);
+    else if (denom2 === 12)
+      max2 = Math.max(denom1,denom3);
+    else
+      max2 = Math.max(denom1,denom2);
+
+    if (max2 <= 3)
+      return true;
+  }
+
+  return (max - min <= 4);
+
+  return false;
+}
+
+function pair_or_better()
+{
+  return ((denom1 === denom2) || (denom1 === denom3) || (denom2 === denom3));
+}
+
+function incrementNumDryFlops()
+{
+  num_dry_flops++;
+  var num_dry_flops_obj = document.getElementById("num_dry_flops")
+  num_dry_flops_obj.innerHTML = num_dry_flops + " num_dry_flops";
+}
+
+function incrementNumWetFlops()
+{
+  num_wet_flops++;
+  var num_wet_flops_obj = document.getElementById("num_wet_flops")
+  num_wet_flops_obj.innerHTML = num_wet_flops + " num_wet_flops";
+}
+
+function incrementNumQuizzes()
+{
+  num_quizzes++;
+  var num_quizzes_obj = document.getElementById("num_quizzes")
+  num_quizzes_obj.innerHTML = num_quizzes + " num_quizzes";
+}
+
+function incrementCorrectAnswers()
+{
+  correct_answers++;
+  var correct_answers_obj = document.getElementById("correct_answers")
+  correct_answers_obj.innerHTML = correct_answers + " correct_answers";
+}
+
+function incrementIncorrectAnswers()
+{
+  incorrect_answers++;
+  var incorrect_answers_obj = document.getElementById("incorrect_answers")
+  incorrect_answers_obj.innerHTML = incorrect_answers + " incorrect_answers";
+}
+
+function isDry(ix1,ix2,ix3)
+{
+  getSuitsAndDenoms();
+
+  if (flush())
+    return false;
+
+  if (straight())
+    return false;
+
+  if (pair_or_better())
+    return false;
+
+  return true;
+}
+
+function isWet(ix1,ix2,ix3)
+{
+  getSuitsAndDenoms();
+
+  if (flush())
+    return true;
+
+  if (straight())
+    return true;
+
+  if (pair_or_better())
+    return true;
+
+  return false;
+}
+
+function processDry()
+{
+  var isdry = isDry(ix1,ix2,ix3);
+
+  if (isdry) {
+    incrementNumDryFlops();
+    incrementCorrectAnswers();
+  }
+  else {
+    incrementNumWetFlops();
+    incrementIncorrectAnswers();
+  }
+
+  incrementNumQuizzes();
+
+  newFlop();
+}
+
+function processWet()
+{
+  var iswet = isWet(ix1,ix2,ix3);
+
+  if (iswet) {
+    incrementNumWetFlops();
+    incrementCorrectAnswers();
+  }
+  else {
+    incrementNumDryFlops();
+    incrementIncorrectAnswers();
+  }
+
+  incrementNumQuizzes();
+
+  newFlop();
+}
+
+function newFlop()
+{
+  var card1 = document.getElementById("card1")
+  var card2 = document.getElementById("card2")
+  var card3 = document.getElementById("card3")
+
+  ix1 = Math.floor(Math.random()*52)
+  card1.src = ix1 + ".bmp"
+
+  do {
+    ix2 = Math.floor(Math.random()*52)
+  } while (ix2 === ix1);
+
+  card2.src = ix2 + ".bmp"
+
+  do {
+    ix3 = Math.floor(Math.random()*52)
+  } while (ix3 === ix2 || ix3 === ix1);
+
+  card3.src = ix3 + ".bmp"
+}
+</script>
+
+</body>
+</html>
