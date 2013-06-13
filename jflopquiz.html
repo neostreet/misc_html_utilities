@@ -16,6 +16,8 @@
 <p id="num_wet_flops">0 num_wet_flops</p>
 <p id="correct_answers">0 correct_answers</p>
 <p id="incorrect_answers">0 incorrect_answers</p>
+<p id="correct_streak">0 correct_streak</p>
+<p id="max_correct_streak">0 max_correct_streak</p>
 
 <script type="text/javascript">
 
@@ -27,6 +29,8 @@ var num_dry_flops = 0;
 var num_wet_flops = 0;
 var correct_answers = 0;
 var incorrect_answers = 0;
+var correct_streak = 0;
+var max_correct_streak = 0;
 
 newFlop();
 
@@ -112,6 +116,16 @@ function incrementCorrectAnswers()
   correct_answers++;
   var correct_answers_obj = document.getElementById("correct_answers")
   correct_answers_obj.innerHTML = correct_answers + " correct_answers";
+
+  correct_streak++;
+  var correct_streak_obj = document.getElementById("correct_streak")
+  correct_streak_obj.innerHTML = correct_streak + " correct_streak";
+
+  if (correct_streak > max_correct_streak) {
+    max_correct_streak = correct_streak;
+    var max_correct_streak_obj = document.getElementById("max_correct_streak")
+    max_correct_streak_obj.innerHTML = max_correct_streak + " max_correct_streak";
+  }
 }
 
 function incrementIncorrectAnswers()
@@ -119,6 +133,10 @@ function incrementIncorrectAnswers()
   incorrect_answers++;
   var incorrect_answers_obj = document.getElementById("incorrect_answers")
   incorrect_answers_obj.innerHTML = incorrect_answers + " incorrect_answers";
+
+  correct_streak = 0;
+  var correct_streak_obj = document.getElementById("correct_streak")
+  correct_streak_obj.innerHTML = correct_streak + " correct_streak";
 }
 
 function isDry(ix1,ix2,ix3)
