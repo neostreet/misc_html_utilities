@@ -175,10 +175,12 @@ function handlekey(e)
       return true;
 
     case 37: // left-arrow
+    case 78: // n
       processNonRainbow();
       break;
 
     case 39: // right-arrow
+    case 82: // r
       processRainbow();
       break;
 

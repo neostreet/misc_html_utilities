@@ -234,10 +234,12 @@ function handlekey(e)
       return true;
 
     case 37: // left-arrow
+    case 68: // d
       processDry();
       break;
 
     case 39: // right-arrow
+    case 87: // w
       processWet();
       break;
 
