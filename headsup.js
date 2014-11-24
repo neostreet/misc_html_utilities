@@ -72,7 +72,7 @@ function processLeft()
 
   incrementNumQuizzes();
 
-  newFlop();
+  newHeadsUp();
 }
 
 function processRight()
@@ -82,7 +82,7 @@ function processRight()
 
   incrementNumQuizzes();
 
-  newFlop();
+  newHeadsUp();
 }
 
 function newHeadsUp()
