@@ -78,7 +78,7 @@ function processLeft()
 function processRight()
 {
   incrementNumRights();
-  incrementCorrectAnswers();
+  incrementIncorrectAnswers();
 
   incrementNumQuizzes();
 
